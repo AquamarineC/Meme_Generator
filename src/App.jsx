@@ -1,21 +1,48 @@
-import { useState } from 'react' 
+import { useState, useEffect } from 'react' 
 import Header from './components/Header'
 import MainPage from './components/MainPage'
 
+
+
+function WindowTracker(){
+
+    const [realTimeWidth, setRealTimeWidth] = useState(window.innerWidth)
+
+    useEffect(() => {
+        window.addEventListener("resize", function(){
+            setRealTimeWidth(window.innerWidth)
+        })
+        
+    },[])
+   
+
+        return (
+            <h1>Window Width: {realTimeWidth}</h1>
+        )
+    }
+
+
+
+
 function App() {
 
-  const [starWarsData, setStarWarsData] = useState(null)
+    const [show, setShow] = useState(true)
 
-  fetch("https://swapi.dev/api/people/1")
-      .then(res => res.json())
-      .then(data => setStarWarsData(prev => ({...prev, data}))) 
-      preventDefault()
+    function toggleShow(){
+        setShow(prev => !prev)
+    }
 
-  return (
-    <>    
-    <pre>{JSON.stringify(starWarsData, null, 2)}</pre>
-    </>
-  )
+    
+ 
+    
+    return (
+        <> 
+            <button onClick={toggleShow}>
+                Toggle Window Tracker
+            </button>
+            {show === true? <WindowTracker /> : null}
+        </>
+    )
 }
 
 export default App

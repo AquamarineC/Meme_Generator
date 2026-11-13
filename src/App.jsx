@@ -8,12 +8,21 @@ function WindowTracker(){
 
     const [realTimeWidth, setRealTimeWidth] = useState(window.innerWidth)
 
-    useEffect(() => {
-        window.addEventListener("resize", function(){
-            setRealTimeWidth(window.innerWidth)
-        })
-        
-    },[])
+
+
+            useEffect(() => {
+
+                function watchWindowWith(){
+
+                    setRealTimeWidth(window.innerWidth)
+                }
+
+                
+                window.addEventListener("resize", watchWindowWith)
+                return function(){
+                    window.removeEventListener("resize", watchWindowWith)
+                }
+            },[])
    
 
         return (

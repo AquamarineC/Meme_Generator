@@ -1,12 +1,7 @@
 
 import { useState, useEffect } from "react"
 
-
-
-
-export default function MainPage() {
-
-    
+export default function MainPage() {  
 
     const [meme, setMeme] = useState({
     topText: "One does not simply",
@@ -14,15 +9,28 @@ export default function MainPage() {
     imageUrl: "http://i.imgflip.com/1bij.jpg"
     }) 
 
-    const [memeArray, setMemeArray] = useState([])
-  
+    console.log(meme)
+
+
+    const [memeArray, setMemeArray] = useState([]) 
 
     useEffect(() => {
         fetch("https://api.imgflip.com/get_memes")
         .then(response => response.json())
         .then(jsonData => setMemeArray(jsonData.data.memes)) 
-    }, [])
-      
+         
+    }, []) 
+
+    console.log(memeArray)
+
+    function getRandomMeme() {
+        setMeme(prev => ({
+            ...prev, 
+            imageUrl: memeArray[Math.floor(Math.random() * memeArray.length)].url}))
+    }
+
+
+
 
     function changeText(event) {
 
@@ -57,7 +65,7 @@ export default function MainPage() {
 
                     />
                 </label>
-                <button>Get a new meme image 🖼</button>
+                <button onClick={getRandomMeme}>Get a new meme image 🖼</button>
             </div>
             <div className="meme">
                 <img src={ meme.imageUrl }/>
